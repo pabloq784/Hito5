@@ -1,59 +1,82 @@
 import { useCart } from "../context/CartContext";
 
 const Cart = () => {
-  const { cart, removeFromCart, updateQty, total } = useCart();
+  const { cart, updateQty, removeFromCart, total } = useCart();
 
   return (
     <div className="container mt-5">
-      <h2>Carrito 🛒</h2>
+      <h2>🛒 Carrito de compras</h2>
 
       {cart.length === 0 ? (
         <p>El carrito está vacío</p>
       ) : (
-        <>
-          {cart.map((p) => (
-            <div
-              key={p.id}
-              className="d-flex justify-content-between align-items-center border-bottom py-2"
-            >
-              <strong>{p.name}</strong>
+        <table className="table mt-4 align-middle">
+          <thead>
+            <tr className="align-middle">
+              <th className="ps-4">Pizza</th>
+              <th>Tipo de Pizza</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th></th>
+            </tr>
+          </thead>
 
-              <div>
-                <button
-                  className="btn btn-sm btn-outline-secondary"
-                  onClick={() => updateQty(p.id, -1)}
-                >
-                  -
-                </button>
+          <tbody>
+            {cart.map((pizza) => (
+              <tr key={pizza.id}>
+                {/* 🖼️ IMAGEN */}
+                <td>
+                  <img
+                    src={pizza.img}
+                    alt={pizza.name}
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
+                </td>
 
-                <span className="mx-2">{p.qty}</span>
+                <td>{pizza.name}</td>
+                <td>${pizza.price.toLocaleString("es-CL")}</td>
 
-                <button
-                  className="btn btn-sm btn-outline-secondary"
-                  onClick={() => updateQty(p.id, 1)}
-                >
-                  +
-                </button>
-              </div>
+                <td>
+                  <button
+                    className="btn btn-sm btn-outline-secondary me-2"
+                    onClick={() => updateQty(pizza.id, -1)}
+                  >
+                    -
+                  </button>
 
-              <span>
-                ${(p.price * p.qty).toLocaleString("es-CL")}
-              </span>
+                  {pizza.qty}
 
-              <button
-                className="btn btn-sm btn-danger"
-                onClick={() => removeFromCart(p.id)}
-              >
-                ❌
-              </button>
-            </div>
-          ))}
+                  <button
+                    className="btn btn-sm btn-outline-secondary ms-2"
+                    onClick={() => updateQty(pizza.id, 1)}
+                  >
+                    +
+                  </button>
+                </td>
 
-          <h4 className="mt-4">
-            Total: ${total.toLocaleString("es-CL")}
-          </h4>
-        </>
+                <td>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => removeFromCart(pizza.id)}
+                  >
+                    ❌
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
+
+      {/* TOTAL */}
+      <h4 className="mt-4">
+        Total: ${total.toLocaleString("es-CL")}
+      </h4>
     </div>
   );
 };
