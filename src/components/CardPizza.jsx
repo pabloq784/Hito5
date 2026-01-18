@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const CardPizza = ({ name, price, ingredients, img }) => {
+const CardPizza = ({ id, name, price, ingredients, img, onAdd }) => {
   return (
     <div className="card pizza-card shadow-sm h-100">
       <img src={img} className="card-img-top pizza-img" alt={name} />
@@ -24,7 +24,9 @@ const CardPizza = ({ name, price, ingredients, img }) => {
           <button className="btn btn-outline-dark btn-sm">
             Ver Más 👁️
           </button>
-          <button className="btn btn-dark btn-sm">
+          <button className="btn btn-dark btn-sm"
+           onClick={onAdd}
+          >
             Añadir 🛒
           </button>
         </div>
@@ -34,10 +36,12 @@ const CardPizza = ({ name, price, ingredients, img }) => {
 };
 
 CardPizza.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
   img: PropTypes.string.isRequired,
+  onAdd: PropTypes.func,
 };
 
 export default CardPizza;
